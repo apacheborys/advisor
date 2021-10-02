@@ -11,21 +11,21 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity
  * @ORM\Table(name="advisor_languages", indexes={
- *      @Index(name="advisor_FK_idx", columns={"idAdvisor"})
+ *      @Index(name="advisor_FK_idx", columns={"id_advisor"})
  * })
  */
 class AdvisorLanguage
 {
     /**
      * @var UuidInterface
-     *
+     * @ORM\Id
      * @ORM\Column(type="uuid", nullable=false)
      */
     private UuidInterface $idAdvisor;
 
     /**
      * @var string
-     *
+     * @ORM\Id
      * @ORM\Column(type="string", length=2)
      */
     private string $locale;

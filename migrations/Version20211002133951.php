@@ -12,7 +12,7 @@ final class Version20211002133951 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql("CREATE TABLE `advisor` (
-  `id` BINARY(16) NOT NULL,
+  `id` CHAR(36) NOT NULL,
   `name` VARCHAR(80) NOT NULL,
   `description` TEXT NULL,
   `availability` TINYINT NULL,
@@ -21,8 +21,9 @@ final class Version20211002133951 extends AbstractMigration
   PRIMARY KEY (`id`))");
 
         $this->addSql("CREATE TABLE `advisor_languages` (
-  `id_advisor` BINARY(16) NOT NULL,
-  `language` CHAR(2) NOT NULL)");
+  `id_advisor` CHAR(36) NOT NULL,
+  `language` CHAR(2) NOT NULL,
+  PRIMARY KEY (`id_advisor`, `language`))");
 
         $this->addSql("ALTER TABLE `advisor_languages` 
 ADD INDEX `advisor_FK_idx` (`id_advisor` ASC) VISIBLE");

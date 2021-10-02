@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\DTO\CreateAdvisorDTO;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
@@ -56,5 +58,16 @@ class Advisor
     /**
      * @ORM\OneToMany(targetEntity="AdvisorLanguage", mappedBy="idAdvisor", cascade={"ALL"}, indexBy="locale")
      */
-    private ArrayCollection $languages;
+    private $languages;
+
+    public static function createFromDTO(CreateAdvisorDTO $dto): self
+    {
+        $instance = new self();
+        $instance->name = $dto->name;
+        $instance->availability = $dto->availability;
+        $instance->description = $dto->description;
+        $instance->pricePerMinute = new Money($dto->pricePerMinute->amount, new Currency($dto->pricePerMinute->currency));
+
+        return $instance;
+    }
 }
