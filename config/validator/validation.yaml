@@ -1,0 +1,22 @@
+App\DTO\CreateAdvisorDTO:
+  properties:
+    name:
+      - Length:
+          min: 1
+          max: 80
+          minMessage: "Advisor's name can't be shorter than 1 char"
+          maxMessage: "Advisor's name can't be longer than 80 chars"
+    languages:
+      - Count:
+          min: 1
+          minMessage: "You must specify at least one available language for advisor"
+App\DTO\LanguageDTO:
+  properties:
+    language:
+      - Country: ~
+App\DTO\MoneyDTO:
+  properties:
+    amount:
+      - Regex: '/\d/'
+    currency:
+      - Currency: ~

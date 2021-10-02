@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\DTO\CreateAdvisorDTO;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -60,14 +60,47 @@ class Advisor
      */
     private $languages;
 
-    public static function createFromDTO(CreateAdvisorDTO $dto): self
+    /**
+     * @return UuidInterface
+     */
+    public function getId(): UuidInterface
+    {
+        return $this->id;
+    }
+
+    public static function createFromDto(CreateAdvisorDTO $dto): self
     {
         $instance = new self();
+        $instance->id = Uuid::uuid4();
         $instance->name = $dto->name;
         $instance->availability = $dto->availability;
         $instance->description = $dto->description;
         $instance->pricePerMinute = new Money($dto->pricePerMinute->amount, new Currency($dto->pricePerMinute->currency));
 
+        foreach ($dto->languages as $languageDTO) {
+            $instance->languages[] = AdvisorLanguage::createFromDto($languageDTO, $instance);
+        }
+
         return $instance;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->toString(),
+            'name' => $this->name,
+            'description' => $this->description,
+            'availability' => $this->availability,
+            'pricePerMinute' => [
+                'amount' => $this->pricePerMinute->getAmount(),
+                'currency' => $this->pricePerMinute->getCurrency()->getCode(),
+            ],
+            'languages' => array_map(
+                static function (AdvisorLanguage $language): array {
+                    return $language->toArray();
+                },
+                $this->languages->toArray()
+            )
+        ];
     }
 }

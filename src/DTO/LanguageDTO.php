@@ -5,5 +5,5 @@ namespace App\DTO;
 
 class LanguageDTO
 {
-    public string $locale;
+    public string $language;
 }
