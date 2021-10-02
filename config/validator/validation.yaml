@@ -12,8 +12,8 @@ App\DTO\CreateAdvisorDTO:
           minMessage: "You must specify at least one available language for advisor"
 App\DTO\LanguageDTO:
   properties:
-    language:
-      - Country: ~
+    locale:
+      - Locale: ~
 App\DTO\MoneyDTO:
   properties:
     amount:

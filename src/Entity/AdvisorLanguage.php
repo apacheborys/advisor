@@ -35,7 +35,7 @@ class AdvisorLanguage
     {
         $instance = new self();
         $instance->idAdvisor = $advisor->getId();
-        $instance->locale = $dto->language;
+        $instance->locale = $dto->locale;
 
         return $instance;
     }
