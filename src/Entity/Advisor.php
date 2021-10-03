@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\DTO\CreateAdvisorDTO;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
@@ -56,9 +58,14 @@ class Advisor
     private Money $pricePerMinute;
 
     /**
-     * @ORM\OneToMany(targetEntity="AdvisorLanguage", mappedBy="idAdvisor", cascade={"ALL"}, indexBy="locale")
+     * @ORM\OneToMany(targetEntity="AdvisorLanguage", mappedBy="advisor", cascade={"ALL"}, indexBy="locale")
      */
-    private $languages;
+    private Collection $languages;
+
+    public function __construct()
+    {
+        $this->languages = new ArrayCollection();
+    }
 
     /**
      * @return UuidInterface
@@ -66,6 +73,14 @@ class Advisor
     public function getId(): UuidInterface
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
     }
 
     public static function createFromDto(CreateAdvisorDTO $dto): self

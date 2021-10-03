@@ -12,17 +12,15 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity
  * @ORM\Table(name="advisor_languages", indexes={
- *      @Index(name="advisor_FK_idx", columns={"id_advisor"})
+ *      @Index(name="advisor_FK_idx", columns={"advisor_id"})
  * })
  */
 class AdvisorLanguage
 {
     /**
-     * @var UuidInterface
-     * @ORM\Id
-     * @ORM\Column(type="uuid", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Advisor", inversedBy="id")
      */
-    private UuidInterface $idAdvisor;
+    private Advisor $advisor;
 
     /**
      * @var string
@@ -34,7 +32,7 @@ class AdvisorLanguage
     public static function createFromDto(LanguageDTO $dto, Advisor $advisor): self
     {
         $instance = new self();
-        $instance->idAdvisor = $advisor->getId();
+        $instance->advisor = $advisor;
         $instance->locale = $dto->locale;
 
         return $instance;

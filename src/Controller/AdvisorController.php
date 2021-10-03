@@ -49,6 +49,16 @@ class AdvisorController extends AbstractController
         return new JsonResponse(['result' => sprintf('Advisor %s was deleted successfully', $id)]);
     }
 
+    public function getAdvisor()
+    {
+        return new JsonResponse();
+    }
+
+    public function update()
+    {
+        return new JsonResponse();
+    }
+
     private function performValidation(CreateAdvisorDTO $advisorDTO): ?JsonResponse
     {
         $result = [];

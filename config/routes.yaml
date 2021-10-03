@@ -10,7 +10,7 @@ advisor_create:
 advisors_get:
     path: /advisor
     methods: GET
-    controller: App\Controller\AdvisorController:get
+    controller: App\Controller\AdvisorController:getAdvisor
 
 advisor_delete:
     path: /advisor/{id}
@@ -25,4 +25,4 @@ advisor_update:
 advisor_get:
     path: /advisor/{id}
     methods: GET
-    controller: App\Controller\AdvisorController:get
+    controller: App\Controller\AdvisorController:getAdvisor

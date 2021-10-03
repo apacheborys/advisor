@@ -21,9 +21,9 @@ final class Version20211002133951 extends AbstractMigration
   PRIMARY KEY (`id`))");
 
         $this->addSql("CREATE TABLE `advisor_languages` (
-  `id_advisor` CHAR(36) NOT NULL,
+  `advisor_id` CHAR(36) NOT NULL,
   `locale` VARCHAR(35) NOT NULL,
-  PRIMARY KEY (`id_advisor`, `locale`))");
+  PRIMARY KEY (`advisor_id`, `locale`))");
 
         $this->addSql("ALTER TABLE `advisor_languages` 
 ADD INDEX `advisor_FK_idx` (`id_advisor` ASC) VISIBLE");
