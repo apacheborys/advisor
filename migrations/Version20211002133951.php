@@ -17,7 +17,7 @@ final class Version20211002133951 extends AbstractMigration
   `description` TEXT NULL,
   `availability` TINYINT NULL,
   `price_per_minute_amount` VARCHAR(12) NOT NULL,
-  `price_per_minute_currency` CHAR(3) NOT NULL,
+  `price_per_minute_currency_code` CHAR(3) NOT NULL,
   PRIMARY KEY (`id`))");
 
         $this->addSql("CREATE TABLE `advisor_languages` (
@@ -26,11 +26,11 @@ final class Version20211002133951 extends AbstractMigration
   PRIMARY KEY (`advisor_id`, `locale`))");
 
         $this->addSql("ALTER TABLE `advisor_languages` 
-ADD INDEX `advisor_FK_idx` (`id_advisor` ASC) VISIBLE");
+ADD INDEX `advisor_FK_idx` (`advisor_id` ASC) VISIBLE");
 
         $this->addSql("ALTER TABLE `advisor_languages` 
 ADD CONSTRAINT `advisor_FK`
-  FOREIGN KEY (`id_advisor`)
+  FOREIGN KEY (`advisor_id`)
   REFERENCES `symfony_docker`.`advisor` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION");

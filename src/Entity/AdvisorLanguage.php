@@ -25,7 +25,7 @@ class AdvisorLanguage
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(type="string", length=2)
+     * @ORM\Column(type="string", length=35)
      */
     private string $locale;
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\DTO\CreateAdvisorDTO;
 use App\DTO\UpdateAdvisorDTO;
+use App\Repository\AdvisorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=AdvisorRepository::class)
  * @ORM\Table(name="advisor")
  */
 class Advisor
@@ -59,7 +60,7 @@ class Advisor
     private Money $pricePerMinute;
 
     /**
-     * @ORM\OneToMany(targetEntity="AdvisorLanguage", mappedBy="advisor", cascade={"ALL"}, indexBy="locale")
+     * @ORM\OneToMany(targetEntity="AdvisorLanguage", mappedBy="advisor", cascade={"ALL"})
      */
     private Collection $languages;
 

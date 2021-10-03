@@ -30,3 +30,44 @@ App\DTO\UpdateAdvisorDTO:
           max: 80
           minMessage: "Advisor's name can't be shorter than 1 char"
           maxMessage: "Advisor's name can't be longer than 80 chars"
+App\Filter\GetAdvisorsFilter:
+  properties:
+    limit:
+      - Range:
+          min: 0
+          max: 100
+          notInRangeMessage: "You must be between {{ min }} and {{ max }} items"
+      - NotNull: ~
+    offset:
+      - PositiveOrZero: ~
+      - NotNull: ~
+    sortDirection:
+      - NotNull: ~
+    name:
+      - NotBlank:
+          allowNull: true
+      - Length:
+          min: 1
+          max: 80
+          minMessage: "Advisor's name can't be shorter than 1 char"
+          maxMessage: "Advisor's name can't be longer than 80 chars"
+App\ValueObject\SortDirectionValueObject:
+  properties:
+    value:
+      - Choice:
+          choices: [ASC, DESC]
+          message: Choose a valid direction (ASC or DESC).
+App\ValueObject\PriceRangeValueObject:
+  properties:
+    min:
+      - PositiveOrZero: ~
+      - LessThenOrEqual:
+          propertyPath: max
+      - NotNull: ~
+    max:
+      - PositiveOrZero: ~
+      - GreaterThanOrEqual:
+          propertyPath: min
+      - NotNull: ~
+    currency:
+      - Currency: ~
