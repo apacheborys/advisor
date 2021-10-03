@@ -8,9 +8,7 @@ use App\Entity\AdvisorLanguage;
 use App\Filter\GetAdvisorsFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Advisor|null find($id, $lockMode = null, $lockVersion = null)

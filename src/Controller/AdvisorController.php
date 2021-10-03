@@ -40,12 +40,12 @@ class AdvisorController extends AbstractController
         $this->entityManager->persist($newAdvisor);
         $this->entityManager->flush();
 
-        return new JsonResponse($newAdvisor->toArray());
+        return new JsonResponse($newAdvisor->toArray(), Response::HTTP_CREATED);
     }
 
     public function delete(string $id): JsonResponse
     {
-        $advisor = $this->advisorRepository->find(Advisor::class, Uuid::fromString($id));
+        $advisor = $this->advisorRepository->find(Uuid::fromString($id));
         if (is_null($advisor)) {
             return new JsonResponse(['error' => sprintf('Advisor with %s id was not found', $id)], Response::HTTP_NOT_FOUND);
         }
@@ -59,7 +59,7 @@ class AdvisorController extends AbstractController
     public function getAdvisor(GetAdvisorsFilter $filter, ?string $id)
     {
         if ($id) {
-            $advisor = $this->advisorRepository->find(Advisor::class, Uuid::fromString($id));
+            $advisor = $this->advisorRepository->find(Uuid::fromString($id));
             if (is_null($advisor)) {
                 return new JsonResponse(['error' => sprintf('Advisor with %s id was not found', $id)], Response::HTTP_NOT_FOUND);
             }
@@ -83,7 +83,7 @@ class AdvisorController extends AbstractController
 
     public function update(UpdateAdvisorDTO $advisorDTO, string $id): JsonResponse
     {
-        $advisor = $this->advisorRepository->find(Advisor::class, Uuid::fromString($id));
+        $advisor = $this->advisorRepository->find(Uuid::fromString($id));
         if (is_null($advisor)) {
             return new JsonResponse(['error' => sprintf('Advisor with %s id was not found', $id)], Response::HTTP_NOT_FOUND);
         }

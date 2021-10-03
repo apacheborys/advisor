@@ -27,18 +27,10 @@ final class Version20211002133951 extends AbstractMigration
 
         $this->addSql("ALTER TABLE `advisor_languages` 
 ADD INDEX `advisor_FK_idx` (`advisor_id` ASC) VISIBLE");
-
-        $this->addSql("ALTER TABLE `advisor_languages` 
-ADD CONSTRAINT `advisor_FK`
-  FOREIGN KEY (`advisor_id`)
-  REFERENCES `symfony_docker`.`advisor` (`id`)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION");
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql("ALTER TABLE `advisor_languages` DROP FOREIGN KEY `advisor_FK`");
         $this->addSql("ALTER TABLE `advisor_languages` DROP INDEX `advisor_FK_idx`");
         $this->addSql("DROP TABLE `advisor_languages`");
         $this->addSql("DROP TABLE `advisor`");
