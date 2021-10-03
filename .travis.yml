@@ -11,3 +11,4 @@ env:
 matrix:
   fast_finish: true
   include:
+    - php: 8.0
