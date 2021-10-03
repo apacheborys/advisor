@@ -20,3 +20,13 @@ App\DTO\MoneyDTO:
       - Regex: '/\d/'
     currency:
       - Currency: ~
+App\DTO\UpdateAdvisorDTO:
+  properties:
+    name:
+      - NotBlank:
+          allowNull: true
+      - Length:
+          min: 1
+          max: 80
+          minMessage: "Advisor's name can't be shorter than 1 char"
+          maxMessage: "Advisor's name can't be longer than 80 chars"

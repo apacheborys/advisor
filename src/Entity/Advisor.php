@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\DTO\CreateAdvisorDTO;
+use App\DTO\UpdateAdvisorDTO;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -81,6 +82,32 @@ class Advisor
     public function getLanguages(): Collection
     {
         return $this->languages;
+    }
+
+    /**
+     * @param Collection $languages
+     */
+    public function setLanguages(Collection $languages): void
+    {
+        $this->languages = $languages;
+    }
+
+    public function updateByDto(UpdateAdvisorDTO $dto): self
+    {
+        if ($dto->name) {
+            $this->name = $dto->name;
+        }
+        if ($dto->pricePerMinute) {
+            $this->pricePerMinute = new Money($dto->pricePerMinute->amount, new Currency($dto->pricePerMinute->currency));
+        }
+        if (is_bool($dto->availability)) {
+            $this->availability = $dto->availability;
+        }
+        if ($dto->description) {
+            $this->description = $dto->description;
+        }
+
+        return $this;
     }
 
     public static function createFromDto(CreateAdvisorDTO $dto): self

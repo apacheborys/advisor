@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver;
 
-use App\DTO\CreateAdvisorDTO;
+use App\DTO\UpdateAdvisorDTO;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 
-class CreateAdvisorResolver extends AbstractAdvisorResolver implements ArgumentValueResolverInterface
+class UpdateAdvisorResolver extends AbstractAdvisorResolver implements ArgumentValueResolverInterface
 {
     function getDtoClass(): string
     {
-        return CreateAdvisorDTO::class;
+        return UpdateAdvisorDTO::class;
     }
 
     function getDtoLocalClassName(): string
     {
-        return 'CreateAdvisorDTO';
+        return 'UpdateAdvisorDTO';
     }
 }

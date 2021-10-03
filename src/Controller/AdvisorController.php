@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\CreateAdvisorDTO;
+use App\DTO\UpdateAdvisorDTO;
 use App\Entity\Advisor;
+use App\Entity\AdvisorLanguage;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,9 +57,32 @@ class AdvisorController extends AbstractController
         return new JsonResponse();
     }
 
-    public function update()
+    public function update(UpdateAdvisorDTO $advisorDTO, string $id): JsonResponse
     {
-        return new JsonResponse();
+        $advisor = $this->entityManager->find(Advisor::class, Uuid::fromString($id));
+        if (is_null($advisor)) {
+            return new JsonResponse(['error' => sprintf('Advisor with %s id was not found', $id)], Response::HTTP_NOT_FOUND);
+        }
+
+        $advisor->updateByDto($advisorDTO);
+
+        if ($advisorDTO->languages) {
+            foreach ($advisor->getLanguages() as $language) {
+                $this->entityManager->remove($language);
+            }
+            $this->entityManager->flush();
+
+            $collection = [];
+            foreach ($advisorDTO->languages as $languageDTO) {
+                $collection[] = AdvisorLanguage::createFromDto($languageDTO, $advisor);
+            }
+
+            $advisor->setLanguages(new ArrayCollection($collection));
+        }
+
+        $this->entityManager->flush();
+
+        return new JsonResponse($advisor->toArray());
     }
 
     private function performValidation(CreateAdvisorDTO $advisorDTO): ?JsonResponse
