@@ -1,28 +1,33 @@
 index:
     path: /
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\BasicController::index
 
 advisor_create:
-    path: /advisor
+    path: /api/v1/advisor
     methods: POST
     controller: App\Controller\AdvisorController:create
 
 advisors_get:
-    path: /advisor
+    path: /api/v1/advisor
     methods: GET
     controller: App\Controller\AdvisorController:getAdvisor
 
 advisor_delete:
-    path: /advisor/{id}
+    path: /api/v1/advisor/{id}
     methods: DELETE
     controller: App\Controller\AdvisorController:delete
 
 advisor_update:
-    path: /advisor/{id}
+    path: /api/v1/advisor/{id}
     methods: PATCH
     controller: App\Controller\AdvisorController:update
 
 advisor_get:
-    path: /advisor/{id}
+    path: /api/v1/advisor/{id}
     methods: GET
     controller: App\Controller\AdvisorController:getAdvisor
+
+swagger_doc:
+    path: /api/v1/doc
+    methods: GET
+    controller: App\Controller\BasicController::getSwaggerDoc

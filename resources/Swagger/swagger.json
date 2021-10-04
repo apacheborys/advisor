@@ -1,0 +1,349 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an api server to manage advisors",
+    "version": "1.0.0",
+    "title": "Advisor manager",
+    "contact": {
+      "email": "borys_ermokhin@yahoo.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "example.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "advisor",
+      "description": "Operations about advisor"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/advisor": {
+      "post": {
+        "tags": [
+          "advisor"
+        ],
+        "summary": "Add new advisor",
+        "operationId": "addAdvisor",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Advisor object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateAdvisorDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful creation",
+            "schema": {
+              "$ref": "#/definitions/Advisor"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "advisor"
+        ],
+        "summary": "Get existent advisors",
+        "operationId": "getAdvisors",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit of qty for result items",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset of result",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "description": "Direction for sorting. Possible values [ASC, DESC]",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Full or part name that should be included to filter",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "priceRange",
+            "in": "query",
+            "description": "Price range to filter out by price. Example: ['min'] => 0, ['max'] => 100, ['currency'] => 'EUR'",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "languages",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Languages that available for selected advisors. Example: [] => 'de_DE', [] => 'fr_FR'",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Advisor"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/advisor/{id}": {
+      "patch": {
+        "tags": [
+          "advisor"
+        ],
+        "summary": "Update advisor",
+        "operationId": "updateAdvisor",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Id of advisor",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Advisor object that needs to be updated in the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAdvisorDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "schema": {
+              "$ref": "#/definitions/Advisor"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "advisor"
+        ],
+        "summary": "Delete advisor",
+        "operationId": "deleteAdvisor",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Id of advisor",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful deletion"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "advisor"
+        ],
+        "summary": "Get advisor",
+        "operationId": "getAdvisor",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Id of advisor",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "schema": {
+              "$ref": "#/definitions/Advisor"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Language": {
+      "type": "object",
+      "properties": {
+        "locale": {
+          "type": "string",
+          "description": "Locale of available language"
+        }
+      }
+    },
+    "PricePerMinute": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount in cents"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency literal according to ISO 4217"
+        }
+      }
+    },
+    "Advisor": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "pricePerMinute",
+        "languages"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "example": "Awesome advisor"
+        },
+        "description": {
+          "type": "string",
+          "example": "Awesome description"
+        },
+        "availability": {
+          "type": "boolean",
+          "example": true
+        },
+        "pricePerMinute": {
+          "$ref": "#/definitions/PricePerMinute"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        }
+      }
+    },
+    "CreateAdvisorDTO": {
+      "type": "object",
+      "required": [
+        "name",
+        "pricePerMinute",
+        "languages"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Awesome advisor"
+        },
+        "description": {
+          "type": "string",
+          "example": "Awesome description"
+        },
+        "availability": {
+          "type": "boolean",
+          "example": true
+        },
+        "pricePerMinute": {
+          "$ref": "#/definitions/PricePerMinute"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        }
+      }
+    },
+    "UpdateAdvisorDTO": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Awesome advisor"
+        },
+        "description": {
+          "type": "string",
+          "example": "Awesome description"
+        },
+        "availability": {
+          "type": "boolean",
+          "example": true
+        },
+        "pricePerMinute": {
+          "$ref": "#/definitions/PricePerMinute"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        }
+      }
+    }
+  }
+}

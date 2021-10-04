@@ -14,7 +14,7 @@ class AdvisorControllerTest extends WebTestCase
     public function testCreateAdvisor(string $payload, int $expectedStatus, string $expectedResponse): void
     {
         $client = self::createClient();
-        $client->request('POST', '/advisor', [], [], [], $payload);
+        $client->request('POST', '/api/v1/advisor', [], [], [], $payload);
         $response = $client->getResponse();
 
         self::assertSame($expectedStatus, $response->getStatusCode());
